@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insulators Canada — Directory</title>
+  <meta name="theme-color" content="#0b2239">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Insulators">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <link rel="stylesheet" href="style.css?v=job-highlights-v1">
+</head>
+<body data-theme="light">
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+            <path d="M12 2L4 8v6l8 8 8-8V8z"/>
+            <line x1="8" y1="11" x2="16" y2="11"/>
+            <line x1="8" y1="14" x2="16" y2="14"/>
+          </svg>
+        </div>
+        <span class="nav-title">Insulators Canada</span>
+        <span class="nav-divider"></span>
+        <span class="nav-label">Directory</span>
+      </div>
+      <div class="nav-right">
+        <div class="theme-toggle" role="group" aria-label="Visual theme">
+          <button id="theme-light" class="theme-btn" type="button" data-theme-value="light" aria-pressed="false">Light</button>
+          <button id="theme-dark" class="theme-btn" type="button" data-theme-value="dark" aria-pressed="true">Dark</button>
+        </div>
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" id="search" class="search-input" placeholder="Search locals...">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="map-banner">
+    <div class="map-banner-inner">
+      <svg class="canada-outline" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+        <!-- Territories (ghosted) -->
+        <path id="YT" d="M10.9,154.8 L32.6,154.8 L130.4,154.8 L152.2,148.4 L152.2,103.2 L130.4,77.4 L87.0,51.6 L43.5,38.7 L10.9,32.3 L10.9,154.8 Z" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.04)" stroke-width="0.5" stroke-linejoin="round"/>
+        <path id="NT" d="M130.4,154.8 L239.1,154.8 L347.8,154.8 L434.8,154.8 L413.0,129.0 L369.6,103.2 L347.8,77.4 L293.5,51.6 L239.1,38.7 L173.9,45.2 L130.4,51.6 L87.0,51.6 L130.4,77.4 L152.2,103.2 L152.2,148.4 L130.4,154.8 Z" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.04)" stroke-width="0.5" stroke-linejoin="round"/>
+        <path id="NU" d="M434.8,154.8 L478.3,154.8 L521.7,154.8 L576.1,154.8 L608.7,129.0 L630.4,103.2 L652.2,77.4 L673.9,51.6 L695.7,25.8 L652.2,25.8 L565.2,38.7 L456.5,51.6 L347.8,51.6 L347.8,77.4 L369.6,103.2 L413.0,129.0 L434.8,154.8 Z" fill="rgba(255,255,255,0.01)" stroke="rgba(255,255,255,0.04)" stroke-width="0.5" stroke-linejoin="round"/>
+        <!-- Provinces -->
+        <path id="BC" d="M32.6,154.8 L43.5,161.3 L54.3,174.2 L76.1,193.5 L97.8,219.4 L119.6,232.3 L130.4,245.2 L152.2,264.5 L163.0,277.4 L173.9,290.3 L184.8,296.8 L195.7,303.2 L206.5,303.2 L206.5,296.8 L217.4,296.8 L239.1,296.8 L239.1,232.3 L239.1,154.8 L130.4,154.8 L32.6,154.8 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="AB" d="M239.1,296.8 L347.8,296.8 L347.8,232.3 L347.8,154.8 L239.1,154.8 L239.1,232.3 L239.1,296.8 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="SK" d="M347.8,296.8 L434.8,296.8 L434.8,232.3 L434.8,154.8 L347.8,154.8 L347.8,232.3 L347.8,296.8 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="MB" d="M434.8,296.8 L510.9,296.8 L510.9,271.0 L516.3,258.1 L532.6,245.2 L543.5,232.3 L576.1,200.0 L576.1,180.6 L576.1,154.8 L521.7,154.8 L478.3,154.8 L434.8,154.8 L434.8,232.3 L434.8,296.8 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="ON" d="M510.9,296.8 L516.3,303.2 L532.6,309.7 L554.3,303.2 L565.2,309.7 L576.1,309.7 L587.0,303.2 L619.6,322.6 L630.4,329.0 L641.3,335.5 L652.2,374.2 L663.0,380.6 L673.9,374.2 L684.8,367.7 L684.8,361.3 L695.7,354.8 L706.5,354.8 L717.4,354.8 L728.3,341.9 L673.9,329.0 L663.0,322.6 L652.2,316.1 L630.4,316.1 L619.6,303.2 L608.7,296.8 L597.8,283.9 L587.0,264.5 L576.1,245.2 L576.1,200.0 L543.5,232.3 L532.6,245.2 L516.3,258.1 L510.9,271.0 L510.9,296.8 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="QC" d="M728.3,341.9 L739.1,341.9 L750.0,335.5 L771.7,329.0 L782.6,322.6 L793.5,316.1 L804.3,309.7 L815.2,303.2 L826.1,303.2 L837.0,309.7 L842.4,316.1 L847.8,322.6 L858.7,322.6 L869.6,309.7 L880.4,303.2 L891.3,296.8 L902.2,290.3 L913.0,283.9 L923.9,264.5 L913.0,258.1 L891.3,245.2 L869.6,232.3 L847.8,219.4 L826.1,206.5 L804.3,193.5 L782.6,180.6 L760.9,174.2 L739.1,167.7 L717.4,154.8 L695.7,154.8 L684.8,167.7 L684.8,206.5 L679.3,245.2 L673.9,264.5 L673.9,329.0 L728.3,341.9 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="NB" d="M793.5,316.1 L804.3,322.6 L815.2,322.6 L826.1,316.1 L831.5,312.3 L837.0,316.1 L842.4,322.6 L842.4,335.5 L837.0,341.9 L826.1,348.4 L815.2,348.4 L809.8,341.9 L809.8,329.0 L804.3,322.6 L793.5,316.1 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="NS" d="M826.1,348.4 L837.0,361.3 L847.8,367.7 L858.7,361.3 L875.0,354.8 L891.3,341.9 L891.3,335.5 L880.4,329.0 L869.6,322.6 L858.7,322.6 L847.8,335.5 L842.4,335.5 L837.0,341.9 L826.1,348.4 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="PEI" d="M842.4,335.5 L853.3,335.5 L869.6,329.0 L858.7,322.6 L847.8,325.2 L842.4,335.5 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="NL_island" d="M902.2,322.6 L913.0,316.1 L934.8,322.6 L945.7,316.1 L956.5,322.6 L967.4,322.6 L972.8,316.1 L967.4,309.7 L956.5,303.2 L945.7,296.8 L934.8,290.3 L923.9,290.3 L913.0,296.8 L902.2,309.7 L902.2,322.6 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+        <path id="NL_labrador" d="M923.9,264.5 L913.0,283.9 L902.2,290.3 L891.3,290.3 L869.6,283.9 L847.8,271.0 L837.0,258.1 L826.1,245.2 L847.8,232.3 L869.6,232.3 L891.3,238.7 L913.0,251.6 L923.9,264.5 Z" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.08)" stroke-width="0.8" stroke-linejoin="round"/>
+      </svg>
+      <!-- Local dots — positions projected from real lat/lng coordinates -->
+      <div class="map-dot" style="left:20.9%;top:73.4%" data-local="118"><span class="dot-label">Local 118 · BC</span></div>
+      <div class="map-dot" style="left:31.1%;top:59.6%" data-local="110"><span class="dot-label">Local 110 · AB</span></div>
+      <div class="map-dot" style="left:40.7%;top:69.5%" data-local="119"><span class="dot-label">Local 119 · SK</span></div>
+      <div class="map-dot" style="left:48.7%;top:71.2%" data-local="99"><span class="dot-label">Local 99 · MB</span></div>
+      <div class="map-dot" style="left:68.0%;top:90.7%" data-local="95"><span class="dot-label">Local 95 · ON</span></div>
+      <div class="map-dot" style="left:74.4%;top:85.1%" data-local="58"><span class="dot-label">Local 58 · QC</span></div>
+      <div class="map-dot" style="left:82.6%;top:86.2%" data-local="131"><span class="dot-label">Local 131 · NB</span></div>
+      <div class="map-dot" style="left:85.2%;top:88.3%" data-local="116"><span class="dot-label">Local 116 · NS</span></div>
+      <div class="map-dot" style="left:97.0%;top:78.8%" data-local="137"><span class="dot-label">Local 137 · NL</span></div>
+    </div>
+  </div>
+
+  <main class="container">
+    <section id="province-picker" hidden>
+      <p class="section-label">Select your province to find your insulators local.</p>
+      <div class="sel-buttons">
+        <select id="province-select" class="search-input" aria-label="Select province">
+          <option value="">Choose a province</option>
+        </select>
+        <button id="province-continue" class="btn btn-primary" type="button">Continue</button>
+      </div>
+    </section>
+
+    <section id="selected-local" hidden>
+      <div class="selected-grid">
+        <div class="selected-info">
+          <div class="your-local-label">Your local</div>
+          <h1 id="sel-name"></h1>
+          <p id="sel-province" class="sel-province"></p>
+          <div class="sel-details">
+            <div class="sel-detail" id="sel-address-row"><span class="sel-icon">📍</span><span id="sel-address"></span></div>
+            <div class="sel-detail" id="sel-email-row"><span class="sel-icon">✉️</span><a id="sel-email" href=""></a></div>
+            <div class="sel-detail"><span class="sel-icon">🌐</span><a id="sel-website" href="" target="_blank" rel="noopener"></a></div>
+          </div>
+          <div class="sel-buttons">
+            <a id="sel-website-btn" class="btn btn-primary" href="" target="_blank" rel="noopener">Website</a>
+            <a id="sel-directions-btn" class="btn btn-secondary" href="" target="_blank" rel="noopener">Directions</a>
+            <button id="sel-clear" class="btn btn-secondary">Change local</button>
+          </div>
+        </div>
+        <div class="selected-map" id="sel-map"></div>
+      </div>
+    </section>
+
+    <section id="dispatch-section" hidden>
+      <div class="dispatch-header">
+        <div class="dispatch-label"><span class="live-dot"></span>Live dispatch</div>
+        <span class="dispatch-time" id="dispatch-time"></span>
+      </div>
+      <div class="dispatch-table-wrap">
+        <div id="dispatch-content"></div>
+      </div>
+      <div class="dispatch-footer">
+        <a id="dispatch-full-link" class="btn btn-secondary" href="" target="_blank" rel="noopener">View full dispatch →</a>
+      </div>
+    </section>
+
+    <section id="union-directory-section">
+      <div id="official-links-section" class="official-links" hidden>
+        <h3 class="official-links-title">Official union links</h3>
+        <div id="official-links-list"></div>
+      </div>
+      <p class="section-label">All locals</p>
+      <div id="locals-list"></div>
+    </section>
+
+    <section id="union-news-section">
+      <p class="section-label">Union news</p>
+      <div id="union-news-list" class="news-placeholder">Coming soon.</div>
+    </section>
+
+    <section id="trade-news-section">
+      <p class="section-label">Trade resources</p>
+      <div id="trade-resources-list" class="news-placeholder">Coming soon.</div>
+      <p class="section-label" style="margin-top:14px;">Trade news stories</p>
+      <div id="trade-news-list" class="news-placeholder">Stories unavailable right now.</div>
+    </section>
+
+    <section id="jobs-section">
+      <div class="jobs-header">
+        <p class="section-label">Public job board listings</p>
+        <span class="dispatch-time" id="jobs-time"></span>
+      </div>
+      <div id="jobs-list">
+        <div class="dispatch-loading">Loading jobs…</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer container">
+    <p>A <a href="https://baymanbanter.com">baymanbanter.com</a> project</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="app.js?v=job-highlights-v1"></script>
+</body>
+</html>

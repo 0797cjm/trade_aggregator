@@ -1,0 +1,142 @@
+{
+  "locals": [
+    {
+      "id": "58",
+      "name": "Local 58",
+      "province": "Quebec",
+      "lat": 45.6115,
+      "lng": -73.5118,
+      "website": "https://local58.ca",
+      "email": "info@aipita58.org",
+      "hallAddress": "602 Avenue Georges V, Montréal-Est, QC H1L 3T6",
+      "dispatchMode": "contact",
+      "dispatchUrl": null,
+      "description": "Quebec's heat & frost insulators local, based in Montréal-Est."
+    },
+    {
+      "id": "95",
+      "name": "Local 95",
+      "province": "Ontario",
+      "lat": 43.8831,
+      "lng": -79.4312,
+      "website": "https://insulators95.com",
+      "email": "admin@insulators95.com",
+      "hallAddress": "166 Newkirk Road, Unit 5, Richmond Hill, ON",
+      "dispatchMode": "contact",
+      "dispatchUrl": null,
+      "resources": [
+        {
+          "label": "Ontario Dispatch Page",
+          "url": "https://ontarioinsulators.com/dispatch/",
+          "type": "dispatch"
+        }
+      ],
+      "description": "Ontario local with main hall in Richmond Hill and a Sarnia satellite office."
+    },
+    {
+      "id": "99",
+      "name": "Local 99",
+      "province": "Manitoba",
+      "lat": 49.9112,
+      "lng": -97.1704,
+      "website": "https://insulators99.org",
+      "email": "karl@insulators99.org",
+      "hallAddress": "5-225 McPhillips Street, Winnipeg, MB R3E 2K3",
+      "dispatchMode": "contact",
+      "dispatchUrl": null,
+      "description": "Manitoba's local, based in Winnipeg."
+    },
+    {
+      "id": "110",
+      "name": "Local 110",
+      "province": "Alberta",
+      "lat": 53.5314,
+      "lng": -113.4071,
+      "website": "https://insulators110.com",
+      "email": null,
+      "hallAddress": "9335-47 Street, Edmonton, AB T6B 2R7",
+      "dispatchMode": "scrape",
+      "dispatchUrl": "https://insulators110.com/dispatch",
+      "description": "Alberta local with halls in Edmonton and Calgary. Public dispatch available."
+    },
+    {
+      "id": "116",
+      "name": "Local 116",
+      "province": "Nova Scotia",
+      "lat": 44.6368,
+      "lng": -63.6654,
+      "website": "https://insulators116.ca",
+      "email": null,
+      "hallAddress": "106 Chain Lake Drive, Unit 2D, Halifax, NS B3S 1A8",
+      "dispatchMode": "contact",
+      "dispatchUrl": null,
+      "description": "Nova Scotia's local, based in Halifax."
+    },
+    {
+      "id": "118",
+      "name": "Local 118",
+      "province": "British Columbia",
+      "lat": 49.2532,
+      "lng": -122.7324,
+      "website": "https://insulators118.org",
+      "email": "insulators@insulators118.org",
+      "hallAddress": "#1155 573 Sherling Place, Port Coquitlam, BC V3B 0J6",
+      "dispatchMode": "contact",
+      "dispatchUrl": null,
+      "description": "British Columbia local, based in Port Coquitlam."
+    },
+    {
+      "id": "119",
+      "name": "Local 119",
+      "province": "Saskatchewan",
+      "lat": 50.4715,
+      "lng": -104.5967,
+      "website": "https://local119.com",
+      "email": "local119@sasktel.net",
+      "hallAddress": "444 Quebec Street, Regina, SK S4R 1K7",
+      "dispatchMode": "scrape",
+      "dispatchUrl": "https://local119.com/dispatch",
+      "resources": [
+        {
+          "label": "Subscribe to Dispatch Feed",
+          "url": "https://www.local119.com/subscribe-to-dispatch-feed",
+          "type": "dispatch-feed"
+        }
+      ],
+      "description": "Saskatchewan local in Regina with a public dispatch page."
+    },
+    {
+      "id": "131",
+      "name": "Local 131",
+      "province": "New Brunswick",
+      "lat": 45.2677,
+      "lng": -65.993,
+      "website": "https://insulators131.com",
+      "email": "jameswhitenect@insulators131.com",
+      "hallAddress": "28 McIlveen Drive, Unit 8, Saint John, NB E2J 4Y7",
+      "dispatchMode": "contact",
+      "dispatchUrl": null,
+      "description": "New Brunswick's local in Saint John. Also covers PEI."
+    },
+    {
+      "id": "137",
+      "name": "Local 137",
+      "province": "Newfoundland and Labrador",
+      "lat": 47.5563,
+      "lng": -52.7712,
+      "website": "https://insulators137.org",
+      "email": "aw137org@insulators.org",
+      "hallAddress": "80 Mews Place, St. John's, NL A1B 4M3",
+      "dispatchMode": "link",
+      "dispatchUrl": "https://insulators137.org",
+      "resources": [
+        {
+          "label": "Dispatch News",
+          "url": "https://insulators137.org/news-details/news/dispatch/26316",
+          "type": "news"
+        }
+      ],
+      "description": "Newfoundland & Labrador's local in St. John's. Dispatch updates are provided through their main website/contact channels."
+    }
+  ]
+}

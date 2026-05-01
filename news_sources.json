@@ -1,0 +1,111 @@
+{
+  "union": [
+    {
+      "name": "Insulators International",
+      "category": "union",
+      "type": "manual",
+      "url": "https://www.insulators.org",
+      "title": "Official International Association Site Updates",
+      "excerpt": "Official international union website and updates for members, locals, and industry activity."
+    },
+    {
+      "name": "Local 137",
+      "category": "union",
+      "type": "manual",
+      "url": "https://insulators137.org/news-details/news/dispatch/26316",
+      "title": "Dispatch Update",
+      "excerpt": "Local 137 dispatch and member-facing update page."
+    },
+    {
+      "name": "Local 119",
+      "category": "union",
+      "type": "manual",
+      "url": "https://www.local119.com/subscribe-to-dispatch-feed",
+      "title": "Subscribe to Dispatch Feed",
+      "excerpt": "Dispatch subscription page for Local 119 notices and updates."
+    },
+    {
+      "name": "Ontario Insulators",
+      "category": "union",
+      "type": "manual",
+      "url": "https://ontarioinsulators.com/dispatch/",
+      "title": "Ontario Dispatch",
+      "excerpt": "Ontario dispatch page for call and availability updates."
+    }
+  ],
+  "trade": [
+    {
+      "name": "Oil and Gas Canada",
+      "category": "trade",
+      "type": "topic_rss",
+      "query": "oil and gas Canada",
+      "maxItems": 2
+    },
+    {
+      "name": "NL Offshore Oil",
+      "category": "trade",
+      "type": "topic_rss",
+      "query": "Newfoundland Labrador offshore oil",
+      "maxItems": 2
+    },
+    {
+      "name": "LNG Canada Kitimat",
+      "category": "trade",
+      "type": "topic_rss",
+      "query": "LNG Canada Kitimat",
+      "maxItems": 2
+    },
+    {
+      "name": "Labrador Mining Project",
+      "category": "trade",
+      "type": "topic_rss",
+      "query": "Labrador mining project",
+      "maxItems": 2
+    },
+    {
+      "name": "Mechanical Insulation Industry",
+      "category": "trade",
+      "type": "topic_rss",
+      "query": "mechanical insulation industry",
+      "maxItems": 2
+    },
+    {
+      "name": "Industrial Construction Canada",
+      "category": "trade",
+      "type": "topic_rss",
+      "query": "industrial construction Canada",
+      "maxItems": 2
+    },
+    {
+      "name": "Refinery Shutdown Canada",
+      "category": "trade",
+      "type": "topic_rss",
+      "query": "refinery shutdown Canada",
+      "maxItems": 2
+    },
+    {
+      "name": "LNG Canada",
+      "category": "trade",
+      "type": "manual",
+      "url": "https://www.lngcanada.ca/news/news-stories/",
+      "title": "News Stories",
+      "excerpt": "Official LNG Canada project news and updates from the Kitimat LNG development."
+    },
+    {
+      "name": "Government of Newfoundland and Labrador",
+      "category": "trade",
+      "type": "manual",
+      "url": "https://www.gov.nl.ca/em/energy/",
+      "title": "Energy",
+      "excerpt": "Provincial energy information and updates, including offshore and major energy development context."
+    },
+    {
+      "name": "C-NLOER",
+      "category": "trade",
+      "type": "manual",
+      "url": "https://www.cnloer.ca/",
+      "title": "Canada-Newfoundland and Labrador Offshore Energy Regulator",
+      "excerpt": "Official offshore regulator portal with project, safety, and operational information."
+    }
+  ]
+}

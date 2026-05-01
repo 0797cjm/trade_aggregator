@@ -1,0 +1,52 @@
+<?php
+// Example only. Keep real secrets out of web root.
+// In production, place a real config at: ../private/jobs_sources.php
+// Or set env vars: CAREERJET_API_KEY, JOOBLE_API_KEY, ADZUNA_APP_ID, ADZUNA_APP_KEY
+//
+// Optional API setup (disabled by default):
+// 1) Copy this file to ../private/jobs_sources.php
+// 2) Set enabled => true for the provider you want
+// 3) Provide secrets via env vars (recommended)
+// 4) Keep this example in web root, but keep real secrets outside web root
+
+return [
+    'careerjet' => [
+        'enabled' => false,
+        'endpoint' => 'https://search.api.careerjet.net/v4/query',
+        'apiKeyEnv' => 'CAREERJET_API_KEY',
+        'locale' => 'en_CA',
+        'keywords' => 'insulator',
+        'location' => 'Canada',
+        'userIp' => '',
+        'userAgent' => 'BaymanBanter-JobsAggregator/2.0 (+https://baymanbanter.com)',
+        'referer' => 'https://baymanbanter.com/',
+        'pages' => 1,
+        'pageSize' => 20,
+    ],
+    'jooble' => [
+        'enabled' => false,
+        'apiKeyEnv' => 'JOOBLE_API_KEY',
+        'keywords' => 'insulator',
+        'location' => 'Canada',
+        'results' => 20,
+    ],
+    'adzuna' => [
+        'enabled' => false,
+        'appIdEnv' => 'ADZUNA_APP_ID',
+        'appKeyEnv' => 'ADZUNA_APP_KEY',
+        'country' => 'ca',
+        'what' => 'insulator',
+        'where' => 'Canada',
+        'resultsPerPage' => 20,
+    ],
+    'contractorSources' => [
+        // Disabled-by-default direct contractor career pages.
+        // Add Canadian industrial insulation contractors here.
+        // [
+        //     'enabled' => true,
+        //     'name' => 'Contractor Name',
+        //     'source' => 'Contractor Careers',
+        //     'url' => 'https://contractor.example/careers',
+        // ],
+    ],
+];

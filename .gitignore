@@ -1,0 +1,12 @@
+cache/
+.codex
+FUTURE-IDEA.png
+deploy.sh
+*.tmp
+.DS_Store
+
+# Local app icons / generated images
+apple-touch-icon.png
+icon-192.png
+icon-512.png
+*.png
