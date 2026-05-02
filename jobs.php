@@ -214,7 +214,7 @@ function detectHighlightsFromText($text) {
     if (preg_match('/\bshutdown\b/i', $t)) $highlights[] = 'Shutdown';
     if (preg_match('/\bloa\b|living[\s-]*out[\s-]*allowance/i', $t)) $highlights[] = 'LOA';
     if (preg_match('/\btravel\b|traveling|travelling/i', $t)) $highlights[] = 'Travel';
-    if (preg_match('/\bremote\b/i', $t)) $highlights[] = 'Remote';
+    if (preg_match('/\b(remote\s+(work|position|job|role|site|location)|work\s+remotely|fully\s+remote|100%\s+remote|remote-friendly)\b/i', $t)) $highlights[] = 'Remote';
     if (preg_match('/\bapprentice\b/i', $t)) $highlights[] = 'Apprentice';
     if (preg_match('/\bjourneyperson\b|\bjourneyman\b/i', $t)) $highlights[] = 'Journeyperson';
     return array_values(array_unique($highlights));
@@ -457,6 +457,7 @@ function parseJobBankRssItems($xmlString, &$stats = null) {
         } elseif (strpos($link, 'http://') !== 0 && strpos($link, 'https://') !== 0) {
             $link = 'https://www.jobbank.gc.ca' . (strpos($link, '/') === 0 ? '' : '/') . ltrim($link, '/');
         }
+        if (preg_match('/^https?:\/\/(?:www\.)?jobbank\.gc\.ca\/jobsearch\/jobposting\//i', $link) !== 1) continue;
 
         $title = $titleRaw;
         if (preg_match('/^(.*?)\s*\((?:Verified|Expired)\)/i', $titleRaw, $tm)) {
@@ -533,6 +534,7 @@ function parseJobBankHtml($html, &$stats = null) {
         'rowsFound' => 0,
         'rowsRejected' => 0,
         'rowsAccepted' => 0,
+        'rowsSuppressedNoDirectUrl' => 0,
         'resolvedUrlSamples' => [],
     ];
 
@@ -684,9 +686,13 @@ function parseJobBankHtml($html, &$stats = null) {
             }
         }
 
-        $fallbackUrl = 'https://www.jobbank.gc.ca/jobsearch/jobsearch?searchstring=insulator&sort=D&jn=' . rawurlencode($jobNum);
-        $usedFallbackUrl = ($extractedHref === '');
-        $url = $usedFallbackUrl ? $fallbackUrl : $extractedHref;
+        if ($extractedHref === '' || preg_match('/^https?:\/\/(?:www\.)?jobbank\.gc\.ca\/jobsearch\/jobposting\//i', $extractedHref) !== 1) {
+            $stats['rowsSuppressedNoDirectUrl']++;
+            $stats['rowsRejected']++;
+            continue;
+        }
+        $usedFallbackUrl = false;
+        $url = $extractedHref;
         $job = normalizeJob($title, $company, $location, $url, 'Job Bank', $postedAt);
         $job['jobNumber'] = $jobNum;
         $job = enrichJobData($job, $segment);
@@ -1329,11 +1335,13 @@ function isPublicApiSource($source) {
 function shouldRejectPublicJob($job, &$reason) {
     $reason = '';
     $source = (string)($job['source'] ?? '');
-    if (!isPublicApiSource($source)) return false;
+    $isJobBank = stripos($source, 'Job Bank') !== false;
+    if (!isPublicApiSource($source) && !$isJobBank) return false;
 
     $title = (string)($job['title'] ?? '');
     $company = (string)($job['company'] ?? '');
     $location = (string)($job['location'] ?? '');
+    $url = trim((string)($job['url'] ?? ''));
     $tags = isset($job['tags']) && is_array($job['tags']) ? implode(' ', $job['tags']) : '';
     $hay = strtolower(trim($title . ' ' . $company . ' ' . $location . ' ' . $tags));
 
@@ -1343,6 +1351,14 @@ function shouldRejectPublicJob($job, &$reason) {
     $hasUnrelated = preg_match($unrelatedRe, $hay) === 1;
     $hasApprentice = preg_match('/\bapprentice\b/i', $hay) === 1;
     $hasRopeAccess = preg_match('/rope\s+access/i', $hay) === 1;
+    if ($isJobBank && preg_match('/\b(?:residential\s+drywall|general\s+drywall|drywall)\b/i', strtolower($title . ' ' . $company)) === 1) {
+        $reason = 'jobbank_drywall_filtered';
+        return true;
+    }
+    if ($isJobBank && preg_match('/^https?:\/\/(?:www\.)?jobbank\.gc\.ca\/jobsearch\/jobposting\//i', $url) !== 1) {
+        $reason = 'jobbank_missing_direct_posting_url';
+        return true;
+    }
 
     if ($hasApprentice && !$hasStrong) {
         $reason = 'apprentice_without_insulation_terms';
@@ -1481,12 +1497,14 @@ function mergeJobBankRssAndHtml($rssJobs, $htmlJobs, &$rssPreferredDuplicates, &
     $idxByKey = [];
 
     foreach ($rssJobs as $job) {
+        $job['jobBankOrigin'] = 'rss';
         $key = jobBankMergeKey($job);
         $idxByKey[$key] = count($merged);
         $merged[] = $job;
     }
 
     foreach ($htmlJobs as $job) {
+        $job['jobBankOrigin'] = 'html';
         $key = jobBankMergeKey($job);
         if (isset($idxByKey[$key])) {
             $rssPreferredDuplicates++;
@@ -1611,6 +1629,7 @@ foreach ($feeds as $feed) {
 
         $jobBankDebug['htmlFallbackUsed'] = ($selectedBody !== null);
         $jobBankDebug['htmlSupplementUsed'] = $htmlSupplementUsed;
+        $jobBankDebug['directUrlRequired'] = true;
         $jobBankDebug['selectedUrl'] = $selectedUrl;
         $jobBankDebug['attempts'] = $attempts;
         $sourceTimingsMs['Job Bank'] = array_map(function ($a) {
@@ -1618,6 +1637,7 @@ foreach ($feeds as $feed) {
         }, $attempts);
         $jobBankDebug['htmlRowsFound'] = (int)($selectedStats['rowsFound'] ?? 0);
         $jobBankDebug['htmlRowsAccepted'] = (int)($selectedStats['rowsAccepted'] ?? 0);
+        $jobBankDebug['htmlRowsSuppressedNoDirectUrl'] = (int)($selectedStats['rowsSuppressedNoDirectUrl'] ?? 0);
 
         if ($selectedBody === null && empty($rssJobs)) {
             $sourceErrors['Job Bank'] = 'all_fetch_attempts_failed';
@@ -1636,6 +1656,14 @@ foreach ($feeds as $feed) {
 
         $mergedJobBankJobs = mergeJobBankRssAndHtml($rssJobs, $htmlJobs, $rssPreferredDuplicates, $mergedSamples);
         $jobBankDebug['mergedRowsAccepted'] = count($mergedJobBankJobs);
+        $jobBankDebug['htmlRowsRendered'] = 0;
+        foreach ($mergedJobBankJobs as $jbRow) {
+            $jbSource = (string)($jbRow['source'] ?? '');
+            if (stripos($jbSource, 'Job Bank') === false) continue;
+            if (!empty($jbRow['jobNumber']) && !empty($jbRow['jobBankOrigin']) && $jbRow['jobBankOrigin'] === 'html') {
+                $jobBankDebug['htmlRowsRendered']++;
+            }
+        }
         $jobBankDebug['rssPreferredDuplicates'] = $rssPreferredDuplicates;
         $jobBankDebug['mergedSamples'] = $mergedSamples;
         $jobBankDebug['rssRowsFound'] = $jobBankDebug['rssRowsFound'] ?? 0;
@@ -1735,6 +1763,13 @@ $jobsForResponse = applyDebugScoreReasons($jobs, $debugMode);
 $jobBankMeta = null;
 if (!empty($jobBankDebug)) {
     $jobBankMeta = $jobBankDebug;
+    $renderedHtmlRows = 0;
+    foreach ($jobsForResponse as $row) {
+        if (stripos((string)($row['source'] ?? ''), 'Job Bank') === false) continue;
+        if ((string)($row['jobBankOrigin'] ?? '') !== 'html') continue;
+        $renderedHtmlRows++;
+    }
+    $jobBankMeta['htmlRowsRendered'] = $renderedHtmlRows;
     if (!$debugMode && isset($jobBankMeta['attempts'])) {
         unset($jobBankMeta['attempts']);
     }
